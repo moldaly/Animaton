@@ -7,16 +7,20 @@
 
 import UIKit
 
+fileprivate enum Constants {
+    static let areaForJusanEmblem: CGFloat = 100.0
+    static let bottomHeightForBounce: CGFloat = 30.0
+    static let viewCornerRadius: CGFloat = 10.0
+}
+
 class PreInitialViewController: UIViewController {
 
-    var initialViewController = InitialViewController()
-    
-    var viewHeightConstraint: NSLayoutConstraint?
-    var viewBottomConstraint: NSLayoutConstraint?
+    private var initialViewController = InitialViewController()
+    private var viewHeightConstraint: NSLayoutConstraint?
+    private var viewBottomConstraint: NSLayoutConstraint?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = #colorLiteral(red: 0.131503582, green: 0.1414976716, blue: 0.171200037, alpha: 1)
         setupChildViewController()
     }
 
@@ -27,7 +31,7 @@ class PreInitialViewController: UIViewController {
     
     func animatePresentViewController() {
         UIView.animate(withDuration: 0.6) {
-            self.viewBottomConstraint?.constant = 30
+            self.viewBottomConstraint?.constant = Constants.bottomHeightForBounce
             UIView.animate(withDuration: 0.6,
                            delay: 1,
                            usingSpringWithDamping: 0.7,
@@ -41,8 +45,8 @@ class PreInitialViewController: UIViewController {
     private func setupChildViewController() {
         
         let guide = view.safeAreaLayoutGuide
-        let height = guide.layoutFrame.size.height
-        let defaultHeight: CGFloat = height - 100.0
+        let safeAreaHeight = guide.layoutFrame.size.height
+        let viewDefaultHeight: CGFloat = safeAreaHeight - Constants.areaForJusanEmblem
         
         view.backgroundColor = #colorLiteral(red: 0.131503582, green: 0.1414976716, blue: 0.171200037, alpha: 1)
         initialViewController.view.translatesAutoresizingMaskIntoConstraints = false
@@ -50,7 +54,7 @@ class PreInitialViewController: UIViewController {
         addChild(initialViewController)
         initialViewController.didMove(toParent: self)
         
-        initialViewController.view.layer.cornerRadius = 10.0
+        initialViewController.view.layer.cornerRadius = Constants.viewCornerRadius
         initialViewController.view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         
         NSLayoutConstraint.activate([
@@ -58,8 +62,8 @@ class PreInitialViewController: UIViewController {
             initialViewController.view.rightAnchor.constraint(equalTo: self.view.rightAnchor)
         ])
         
-        viewHeightConstraint = initialViewController.view.heightAnchor.constraint(equalToConstant: defaultHeight)
-        viewBottomConstraint = initialViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: defaultHeight)
+        viewHeightConstraint = initialViewController.view.heightAnchor.constraint(equalToConstant: viewDefaultHeight)
+        viewBottomConstraint = initialViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: viewDefaultHeight)
         viewHeightConstraint?.isActive = true
         viewBottomConstraint?.isActive = true
     }
