@@ -21,6 +21,7 @@ class PreInitialViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = #colorLiteral(red: 0.131503582, green: 0.1414976716, blue: 0.171200037, alpha: 1)
         setupChildViewController()
     }
 
@@ -48,7 +49,6 @@ class PreInitialViewController: UIViewController {
         let safeAreaHeight = guide.layoutFrame.size.height
         let viewDefaultHeight: CGFloat = safeAreaHeight - Constants.areaForJusanEmblem
         
-        view.backgroundColor = #colorLiteral(red: 0.131503582, green: 0.1414976716, blue: 0.171200037, alpha: 1)
         initialViewController.view.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(initialViewController.view)
         addChild(initialViewController)
@@ -61,7 +61,6 @@ class PreInitialViewController: UIViewController {
             initialViewController.view.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             initialViewController.view.rightAnchor.constraint(equalTo: self.view.rightAnchor)
         ])
-        
         viewHeightConstraint = initialViewController.view.heightAnchor.constraint(equalToConstant: viewDefaultHeight)
         viewBottomConstraint = initialViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: viewDefaultHeight)
         viewHeightConstraint?.isActive = true
