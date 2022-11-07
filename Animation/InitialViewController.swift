@@ -74,12 +74,11 @@ final class InitialViewController: UIViewController {
     // MARK: Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
         view.backgroundColor = .white
+        setupUI()
     }
     
     private func setupUI() {
-        view.backgroundColor = .white
         title = "Text.signIn"
         [descriptionLabel,
          iinTextField,

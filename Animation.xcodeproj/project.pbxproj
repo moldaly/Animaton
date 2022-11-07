@@ -16,6 +16,7 @@
 		0D1B41C828FFC8000022FFCD /* AnimationUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1B41C728FFC8000022FFCD /* AnimationUITests.swift */; };
 		0D1B41CA28FFC8000022FFCD /* AnimationUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1B41C928FFC8000022FFCD /* AnimationUITestsLaunchTests.swift */; };
 		0D6709B129000C870002ED32 /* PreInitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6709B029000C870002ED32 /* PreInitialViewController.swift */; };
+		0DED13942918CE9500DC2ED3 /* LanguageChooserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DED13932918CE9500DC2ED3 /* LanguageChooserView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		0D1B41C728FFC8000022FFCD /* AnimationUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationUITests.swift; sourceTree = "<group>"; };
 		0D1B41C928FFC8000022FFCD /* AnimationUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		0D6709B029000C870002ED32 /* PreInitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreInitialViewController.swift; sourceTree = "<group>"; };
+		0DED13932918CE9500DC2ED3 /* LanguageChooserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageChooserView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 			children = (
 				0D6709B029000C870002ED32 /* PreInitialViewController.swift */,
 				0D1B41AA28FFC7FC0022FFCD /* InitialViewController.swift */,
+				0DED13932918CE9500DC2ED3 /* LanguageChooserView.swift */,
 				0D1B41D628FFC84C0022FFCD /* SupportingFiles */,
 				0D1B41AF28FFC8000022FFCD /* Assets.xcassets */,
 				0D1B41B128FFC8000022FFCD /* LaunchScreen.storyboard */,
@@ -269,6 +272,7 @@
 				0D1B41A728FFC7FC0022FFCD /* AppDelegate.swift in Sources */,
 				0D1B41A928FFC7FC0022FFCD /* SceneDelegate.swift in Sources */,
 				0D6709B129000C870002ED32 /* PreInitialViewController.swift in Sources */,
+				0DED13942918CE9500DC2ED3 /* LanguageChooserView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
