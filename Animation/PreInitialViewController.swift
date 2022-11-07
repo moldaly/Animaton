@@ -8,7 +8,7 @@
 import UIKit
 
 fileprivate enum Constants {
-    static let areaForJusanEmblem: CGFloat = 70.0
+    static let areaForJusanEmblem: CGFloat = 65.0
     static let bottomHeightForBounce: CGFloat = 50.0
     static let viewCornerRadius: CGFloat = 10.0
 }
@@ -20,12 +20,6 @@ class PreInitialViewController: UIViewController {
     private var viewBottomConstraint: NSLayoutConstraint?
 
     private let logoImageView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .clear
-        return view
-    }()
-    
-    private let labelImageView: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
         return view
@@ -56,62 +50,68 @@ class PreInitialViewController: UIViewController {
         setupUI()
         setupChildViewController()
     }
-
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        animation()
+        animate()
     }
-
-    private func animation() {
-        UIView.animate(withDuration: 0.5, delay: 0) {
+    
+    private func animate() {
+        UIView.animate(withDuration: 0.7, delay: 0) {
             self.logoImageView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
             self.jusanBuisnessImage.isHidden = true
         }
     
-        completion: { _ in
-            UIView.animate(withDuration: 0.5, delay: 0) {
-                self.logoImageView.frame = CGRect(x: self.view.bounds.midX -                self.logoImageView.frame.width / 2,
-                                                  y: self.logoImageView.frame.width + 20,
-                                                  width: self.logoImageView.frame.width,
-                                                  height: self.logoImageView.frame.height)
+            completion: { _ in
+                UIView.animate(withDuration: 0.5, delay: 0) {
+                    self.logoImageView.frame = CGRect(x: self.view.bounds.midX -                self.logoImageView.frame.width / 2,
+                                                      y: self.logoImageView.frame.width + 16,
+                                                      width: self.logoImageView.frame.width,
+                                                      height: self.logoImageView.frame.height)
+                    
+                    self.languageView.frame = CGRect(x: self.view.bounds.width - 50,
+                                                      y: self.logoImageView.frame.width + 25,
+                                                      width: self.languageView.frame.width,
+                                                      height: self.languageView.frame.height)
             }
         
-            completion: { _ in
-                self.jusanBuisnessImage.isHidden = false
-                self.jusanBuisnessImage.alpha = 0.1
-                UIView.animate(withDuration: 0.5, delay: 0.3) {
-                    self.logoImageView.frame = CGRect(x: 16,
-                                                   y: self.logoImageView.frame.height + 20,
-                                                   width: self.logoImageView.frame.width,
-                                                   height: self.logoImageView.frame.height)
-                    self.jusanBuisnessImage.alpha = 3
+                completion: { _ in
+                    self.jusanBuisnessImage.isHidden = false
+                    self.jusanBuisnessImage.alpha = 0.1
+                    UIView.animate(withDuration: 0.5, delay: 0.3) {
+                        self.logoImageView.frame = CGRect(x: 16,
+                                                       y: self.logoImageView.frame.height + 16,
+                                                       width: self.logoImageView.frame.width,
+                                                       height: self.logoImageView.frame.height)
+                        self.jusanBuisnessImage.alpha = 3
                 }
             
-                completion: { _ in
-                    UIView.animate(withDuration: 0.5, delay: 0.3) {
-                       self.languageView.isHidden = false
-                    }
-                    
                     completion: { _ in
-                        UIView.animate(withDuration: 0.6) {
-                            self.viewBottomConstraint?.constant = Constants.bottomHeightForBounce
-                            UIView.animate(withDuration: 0.8,
-                                           delay: 1,
-                                           usingSpringWithDamping: 0.65,
-                                           initialSpringVelocity: 2,
-                                           options: .curveEaseIn) {
-                                self.view.layoutIfNeeded()
-                            }
-                             
-                        }
-        
+                        UIView.animate(withDuration: 0.5, delay: 0.3) {
+                            self.languageView.isHidden = false
+                            self.logoImageView.layer.removeAllAnimations()
+                            
                     }
+                
+                        completion: { _ in
+                            UIView.animate(withDuration: 1, delay: 0) {
+                                self.viewBottomConstraint?.constant = Constants.bottomHeightForBounce
+                                UIView.animate(withDuration: 0.8,
+                                               delay: 1,
+                                               usingSpringWithDamping: 0.65,
+                                               initialSpringVelocity: 2,
+                                               options: .curveEaseIn) {
+                                    self.view.layoutIfNeeded()
+                                }
+                            }
+                        }
+                        
                 }
             }
         }
     }
     
-    private func setupUI(){
+    private func setupUI() {
         [logoImageView, languageView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview($0)
@@ -142,7 +142,7 @@ class PreInitialViewController: UIViewController {
         ])
       
         NSLayoutConstraint.activate([
-            languageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+            languageView.centerYAnchor.constraint(equalTo: logoImageView.centerYAnchor),
             languageView.widthAnchor.constraint(equalToConstant: 45),
             languageView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0),
             languageView.heightAnchor.constraint(equalToConstant: 20)
