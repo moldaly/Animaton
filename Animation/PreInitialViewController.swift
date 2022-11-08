@@ -66,16 +66,21 @@ class PreInitialViewController: UIViewController {
         animate()
     }
     
-    private func invokeAnimatedImageContainerView(moveUp: Bool, moveLeft: Bool) {
-        logoContainerViewXPosition.constant = moveLeft ?
-                                                        -(view.frame.width / 2 - logoContainerView.frame.width / 2 - LayoutGuidance.offset)
-                                                            :
-                                                        LayoutGuidance.doNotMove
-                                                    
-        logoContainerViewYPosition.constant = moveUp ?
-                                                    -(view.frame.height / 2 - Constants.offsetFromTop)
-                                                        :
-                                                    logoContainerView.frame.height + LayoutGuidance.offset
+    private func invokeAnimatedImageContainerView(moveUp: Bool, moveLeft: Bool, moveRight: Bool) {
+        
+        if moveLeft {
+            logoContainerViewXPosition.constant = -(view.frame.width / 2 - logoContainerView.frame.width / 2 - LayoutGuidance.offset)
+        } else if moveRight {
+            logoContainerViewXPosition.constant = LayoutGuidance.offset
+        } else {
+            logoContainerViewXPosition.constant = LayoutGuidance.doNotMove
+        }
+        
+        if moveUp {
+            logoContainerViewYPosition.constant = -(view.frame.height / 2 - Constants.offsetFromTop)
+        } else if !moveUp {
+            logoContainerViewYPosition.constant = logoContainerView.frame.height + LayoutGuidance.offset
+        }
         view.layoutSubviews()
     }
     
@@ -93,22 +98,32 @@ class PreInitialViewController: UIViewController {
         } completion: { _ in
             /// LOGO to top & Language appear
             UIView.animate(withDuration: 0.5, delay: 0) {
-                self.invokeAnimatedImageContainerView(moveUp: true, moveLeft: false)
+                self.invokeAnimatedImageContainerView(moveUp: true, moveLeft: false, moveRight: false)
             } completion: { _ in
                 /// Image & Language
                 UIView.animate(withDuration: 0.5,
-                               delay: 0.3) {
-                    self.invokeAnimatedImageContainerView(moveUp: true, moveLeft: true)
+                               delay: 0.5,
+                               usingSpringWithDamping: 0.6,
+                               initialSpringVelocity: 0.3,
+                               options: .curveEaseIn
+                ) {
+                    self.invokeAnimatedImageContainerView(moveUp: true, moveLeft: false, moveRight: true)
                     
-                    UIView.animate(withDuration: 0.3, delay: 0.7) {
+                    UIView.animate(withDuration: 2,
+                                   delay: 0.65,
+                                   usingSpringWithDamping: 0.65,
+                                   initialSpringVelocity: 0.5,
+                                   options: .curveEaseIn
+                    ) {
+                        self.invokeAnimatedImageContainerView(moveUp: true, moveLeft: true, moveRight: false)
                         self.jusanBuisnessImage.isHidden = false
-                        self.jusanBuisnessImage.alpha = 0.1
-                        UIView.animate(withDuration: 0.7, delay: 0.3) {
+                        self.jusanBuisnessImage.alpha = 0
+                        UIView.animate(withDuration: 0.65, delay: 0.65) {
                             self.jusanBuisnessImage.alpha = 1.0
                         }
                     }
                 } completion: { _ in
-                    UIView.animate(withDuration: 0.7, delay: 0.1) {
+                    UIView.animate(withDuration: 0.7, delay: 0.5) {
                         self.invokeAnimatedLanguageView(isHidden: false)
                     } completion: { _ in
                         /// ChildViewController
