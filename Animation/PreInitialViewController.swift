@@ -111,6 +111,7 @@ class PreInitialViewController: UIViewController {
                     UIView.animate(withDuration: 0.7, delay: 0.1) {
                         self.invokeAnimatedLanguageView(isHidden: false)
                     } completion: { _ in
+                        /// ChildViewController
                         UIView.animate(withDuration: 1, delay: 0) {
                             self.viewBottomConstraint?.constant = Constants.bottomHeightForBounce
                             UIView.animate(
