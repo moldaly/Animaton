@@ -24,7 +24,11 @@ class PreInitialViewController: UIViewController {
     private var initialViewController = InitialViewController()
     private var viewHeightConstraint: NSLayoutConstraint?
     private var viewBottomConstraint: NSLayoutConstraint?
-
+    private var logoContainerViewXPosition: NSLayoutConstraint!
+    private var logoContainerViewYPosition: NSLayoutConstraint!
+    private var languageViewXPosition: NSLayoutConstraint!
+    private var languageViewYPosition: NSLayoutConstraint!
+    
     private let logoContainerView: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
@@ -49,12 +53,6 @@ class PreInitialViewController: UIViewController {
         view.isHidden = true
        return view
      }()
-    
-    private var logoContainerViewXPosition: NSLayoutConstraint!
-    private var logoContainerViewYPosition: NSLayoutConstraint!
-    
-    private var languageViewXPosition: NSLayoutConstraint!
-    private var languageViewYPosition: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,10 +85,6 @@ class PreInitialViewController: UIViewController {
         view.layoutSubviews()
     }
     
-    private func invokeAnimatedChildVC(isShown: Bool) {
-        
-    }
-    
     private func animate() {
         UIView.animate(withDuration: 0.7, delay: 0) {
             /// LOGO shrink
@@ -102,12 +96,8 @@ class PreInitialViewController: UIViewController {
                 self.invokeAnimatedImageContainerView(moveUp: true, moveLeft: false)
             } completion: { _ in
                 /// Image & Language
-                UIView.animate(withDuration: 0.7,
-                               delay: 0.3,
-                               usingSpringWithDamping: 0.3,
-                               initialSpringVelocity: 0.4,
-                               options: .curveEaseIn
-                ) {
+                UIView.animate(withDuration: 0.5,
+                               delay: 0.3) {
                     self.invokeAnimatedImageContainerView(moveUp: true, moveLeft: true)
                     
                     UIView.animate(withDuration: 0.3, delay: 0.7) {
@@ -125,8 +115,8 @@ class PreInitialViewController: UIViewController {
                             self.viewBottomConstraint?.constant = Constants.bottomHeightForBounce
                             UIView.animate(
                                 withDuration: 0.7,
-                                delay: 0.12,
-                                usingSpringWithDamping: 0.6,
+                                delay: 0.65,
+                                usingSpringWithDamping: 0.65,
                                 initialSpringVelocity: 0.5,
                                 options: .curveEaseIn
                             ) {
