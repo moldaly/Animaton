@@ -7,10 +7,16 @@
 
 import UIKit
 
-fileprivate enum Constants {
+fileprivate struct Constants {
     static let areaForJusanEmblem: CGFloat = 65.0
     static let bottomHeightForBounce: CGFloat = 50.0
     static let viewCornerRadius: CGFloat = 10.0
+    static let offsetFromTop: CGFloat = 72.0
+}
+
+fileprivate struct LayoutGuidance {
+    static let offset: CGFloat = 16.0
+    static let doNotMove: CGFloat = 0.0
 }
 
 class PreInitialViewController: UIViewController {
@@ -19,7 +25,7 @@ class PreInitialViewController: UIViewController {
     private var viewHeightConstraint: NSLayoutConstraint?
     private var viewBottomConstraint: NSLayoutConstraint?
 
-    private let logoImageView: UIView = {
+    private let logoContainerView: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
         return view
@@ -44,6 +50,12 @@ class PreInitialViewController: UIViewController {
        return view
      }()
     
+    private var logoContainerViewXPosition: NSLayoutConstraint!
+    private var logoContainerViewYPosition: NSLayoutConstraint!
+    
+    private var languageViewXPosition: NSLayoutConstraint!
+    private var languageViewYPosition: NSLayoutConstraint!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = #colorLiteral(red: 0.131503582, green: 0.1414976716, blue: 0.171200037, alpha: 1)
@@ -56,95 +68,114 @@ class PreInitialViewController: UIViewController {
         animate()
     }
     
+    private func invokeAnimatedImageContainerView(moveUp: Bool, moveLeft: Bool) {
+        logoContainerViewXPosition.constant = moveLeft ?
+                                                        -(view.frame.width / 2 - logoContainerView.frame.width / 2 - LayoutGuidance.offset)
+                                                            :
+                                                        LayoutGuidance.doNotMove
+                                                    
+        logoContainerViewYPosition.constant = moveUp ?
+                                                    -(view.frame.height / 2 - Constants.offsetFromTop)
+                                                        :
+                                                    logoContainerView.frame.height + LayoutGuidance.offset
+        view.layoutSubviews()
+    }
+    
+    private func invokeAnimatedLanguageView(isHidden: Bool) {
+        languageViewYPosition = logoContainerViewYPosition
+        languageView.isHidden = isHidden
+        view.layoutSubviews()
+    }
+    
+    private func invokeAnimatedChildVC(isShown: Bool) {
+        
+    }
+    
     private func animate() {
         UIView.animate(withDuration: 0.7, delay: 0) {
-            self.logoImageView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+            /// LOGO shrink
+            self.logoContainerView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
             self.jusanBuisnessImage.isHidden = true
-        }
-    
-            completion: { _ in
-                UIView.animate(withDuration: 0.5, delay: 0) {
-                    self.logoImageView.frame = CGRect(x: self.view.bounds.midX -                self.logoImageView.frame.width / 2,
-                                                      y: self.logoImageView.frame.width + 16,
-                                                      width: self.logoImageView.frame.width,
-                                                      height: self.logoImageView.frame.height)
+        } completion: { _ in
+            /// LOGO to top & Language appear
+            UIView.animate(withDuration: 0.5, delay: 0) {
+                self.invokeAnimatedImageContainerView(moveUp: true, moveLeft: false)
+            } completion: { _ in
+                /// Image & Language
+                UIView.animate(withDuration: 0.7,
+                               delay: 0.3,
+                               usingSpringWithDamping: 0.3,
+                               initialSpringVelocity: 0.4,
+                               options: .curveEaseIn
+                ) {
+                    self.invokeAnimatedImageContainerView(moveUp: true, moveLeft: true)
                     
-                    self.languageView.frame = CGRect(x: self.view.bounds.width - 50,
-                                                      y: self.logoImageView.frame.width + 25,
-                                                      width: self.languageView.frame.width,
-                                                      height: self.languageView.frame.height)
-            }
-        
-                completion: { _ in
-                    self.jusanBuisnessImage.isHidden = false
-                    self.jusanBuisnessImage.alpha = 0.1
-                    UIView.animate(withDuration: 0.5, delay: 0.3) {
-                        self.logoImageView.frame = CGRect(x: 16,
-                                                       y: self.logoImageView.frame.height + 16,
-                                                       width: self.logoImageView.frame.width,
-                                                       height: self.logoImageView.frame.height)
-                        self.jusanBuisnessImage.alpha = 3
-                }
-            
-                    completion: { _ in
-                        UIView.animate(withDuration: 0.5, delay: 0.3) {
-                            self.languageView.isHidden = false
-                            self.logoImageView.layer.removeAllAnimations()
-                            
+                    UIView.animate(withDuration: 0.3, delay: 0.7) {
+                        self.jusanBuisnessImage.isHidden = false
+                        self.jusanBuisnessImage.alpha = 0.1
+                        UIView.animate(withDuration: 0.7, delay: 0.3) {
+                            self.jusanBuisnessImage.alpha = 1.0
+                        }
                     }
-                
-                        completion: { _ in
-                            UIView.animate(withDuration: 1, delay: 0) {
-                                self.viewBottomConstraint?.constant = Constants.bottomHeightForBounce
-                                UIView.animate(withDuration: 0.8,
-                                               delay: 1,
-                                               usingSpringWithDamping: 0.65,
-                                               initialSpringVelocity: 2,
-                                               options: .curveEaseIn) {
-                                    self.view.layoutIfNeeded()
-                                }
+                } completion: { _ in
+                    UIView.animate(withDuration: 0.7, delay: 0.1) {
+                        self.invokeAnimatedLanguageView(isHidden: false)
+                    } completion: { _ in
+                        UIView.animate(withDuration: 1, delay: 0) {
+                            self.viewBottomConstraint?.constant = Constants.bottomHeightForBounce
+                            UIView.animate(
+                                withDuration: 0.7,
+                                delay: 0.12,
+                                usingSpringWithDamping: 0.6,
+                                initialSpringVelocity: 0.5,
+                                options: .curveEaseIn
+                            ) {
+                                self.view.layoutIfNeeded()
                             }
                         }
-                        
+                    }
                 }
             }
         }
     }
     
     private func setupUI() {
-        [logoImageView, languageView].forEach {
+        [logoContainerView, languageView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview($0)
         }
       
         [logoImage, jusanBuisnessImage].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
-            logoImageView.addSubview($0)
+            logoContainerView.addSubview($0)
         }
+        /// logoContainerView constraints init
+        logoContainerViewXPosition = logoContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        logoContainerViewYPosition = logoContainerView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        
+        /// languageView constraints init
+        languageViewXPosition = languageView.rightAnchor.constraint(equalTo: view.rightAnchor)
+        languageViewYPosition = languageView.centerYAnchor.constraint(equalTo: logoContainerView.centerYAnchor)
         
         NSLayoutConstraint.activate([
-            logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            logoImageView.widthAnchor.constraint(equalToConstant: 80),
-            logoImageView.heightAnchor.constraint(equalToConstant: 80),
-        ])
-      
-        NSLayoutConstraint.activate([
-            logoImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            logoImage.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            logoContainerViewXPosition,
+            logoContainerViewYPosition,
+            logoContainerView.widthAnchor.constraint(equalToConstant: 80),
+            logoContainerView.heightAnchor.constraint(equalToConstant: 80),
+            
+            logoImage.centerXAnchor.constraint(equalTo: logoContainerView.centerXAnchor),
+            logoImage.centerYAnchor.constraint(equalTo: logoContainerView.centerYAnchor),
             logoImage.widthAnchor.constraint(equalToConstant: 80),
             logoImage.heightAnchor.constraint(equalToConstant: 80),
         
             jusanBuisnessImage.leftAnchor.constraint(equalTo: logoImage.rightAnchor, constant: 16),
             jusanBuisnessImage.centerYAnchor.constraint(equalTo: logoImage.centerYAnchor),
             jusanBuisnessImage.heightAnchor.constraint(equalToConstant: 60),
-            jusanBuisnessImage.widthAnchor.constraint(equalToConstant: 154)
-        ])
-      
-        NSLayoutConstraint.activate([
-            languageView.centerYAnchor.constraint(equalTo: logoImageView.centerYAnchor),
+            jusanBuisnessImage.widthAnchor.constraint(equalToConstant: 154),
+            
+            languageViewYPosition,
+            languageViewXPosition,
             languageView.widthAnchor.constraint(equalToConstant: 45),
-            languageView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0),
             languageView.heightAnchor.constraint(equalToConstant: 20)
         ])
     }
@@ -171,6 +202,3 @@ class PreInitialViewController: UIViewController {
         viewBottomConstraint?.isActive = true
     }
 }
-
-
-

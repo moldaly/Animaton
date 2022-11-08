@@ -102,52 +102,46 @@ final class InitialViewController: UIViewController {
             descriptionLabel.leftAnchor.constraint(equalTo: view.leftAnchor,
                                                    constant: 16.0),
             descriptionLabel.rightAnchor.constraint(equalTo: view.rightAnchor,
-                                                    constant: -16.0)
-        ])
-        NSLayoutConstraint.activate([
+                                                    constant: -16.0),
+            
             iinTextField.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor,
                                               constant: 24.0),
             iinTextField.leftAnchor.constraint(equalTo: view.leftAnchor,
                                                constant: 68.0),
             iinTextField.rightAnchor.constraint(equalTo: view.rightAnchor,
                                                 constant: -16.0),
-            iinTextField.heightAnchor.constraint(equalToConstant: 40.0)
-        ])
-        NSLayoutConstraint.activate([
+            iinTextField.heightAnchor.constraint(equalToConstant: 40.0),
+            
             countryView.topAnchor.constraint(equalTo: iinTextField.bottomAnchor,
                                              constant: 16.0),
             countryView.leftAnchor.constraint(equalTo: view.leftAnchor,
                                               constant: 16.0),
             countryView.widthAnchor.constraint(equalToConstant: 40.0),
-            countryView.heightAnchor.constraint(equalToConstant: 40.0)
-        ])
-        NSLayoutConstraint.activate([
+            countryView.heightAnchor.constraint(equalToConstant: 40.0),
+            
             phoneNumberTextField.topAnchor.constraint(equalTo: countryView.topAnchor),
             phoneNumberTextField.leftAnchor.constraint(equalTo: countryView.rightAnchor,
                                                        constant: 12),
             phoneNumberTextField.rightAnchor.constraint(equalTo: view.rightAnchor,
                                                         constant: -16.0),
-            phoneNumberTextField.heightAnchor.constraint(equalToConstant: 40.0)
-        ])
-        NSLayoutConstraint.activate([
+            phoneNumberTextField.heightAnchor.constraint(equalToConstant: 40.0),
+            
             confirmTextView.topAnchor.constraint(equalTo: phoneNumberTextField.bottomAnchor,
                                                  constant: 24.0),
             confirmTextView.leftAnchor.constraint(equalTo: view.leftAnchor,
                                                   constant: 16.0),
             confirmTextView.rightAnchor.constraint(equalTo: view.rightAnchor,
                                                    constant: -16.0),
-            confirmTextView.heightAnchor.constraint(greaterThanOrEqualToConstant: 45.0)
-        ])
-        NSLayoutConstraint.activate([
+            confirmTextView.heightAnchor.constraint(greaterThanOrEqualToConstant: 45.0),
+            
             submitButton.topAnchor.constraint(equalTo: confirmTextView.bottomAnchor,
                                               constant: 12.0),
             submitButton.leftAnchor.constraint(equalTo: view.leftAnchor,
                                                constant: 16.0),
             submitButton.rightAnchor.constraint(equalTo: view.rightAnchor,
                                                 constant: -16.0),
-            submitButton.heightAnchor.constraint(equalToConstant: 50.0)
-        ])
-        NSLayoutConstraint.activate([
+            submitButton.heightAnchor.constraint(equalToConstant: 50.0),
+            
             languageView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
                                                  constant: -32.0),
             languageView.leftAnchor.constraint(equalTo: view.leftAnchor,
