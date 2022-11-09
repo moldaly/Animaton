@@ -38,6 +38,7 @@ class PreInitialViewController: UIViewController {
     private let logoImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "Vector")
+        image.alpha = 0
         return image
     }()
     
@@ -45,6 +46,7 @@ class PreInitialViewController: UIViewController {
         let image = UIImageView()
         image.image = UIImage(named: "Vector2")
         image.contentMode = .scaleAspectFill
+        image.alpha = 0
         return image
     }()
     
@@ -71,7 +73,7 @@ class PreInitialViewController: UIViewController {
         if moveLeft {
             logoContainerViewXPosition.constant = -(view.frame.width / 2 - logoContainerView.frame.width / 2 - LayoutGuidance.offset)
         } else if moveRight {
-            logoContainerViewXPosition.constant = LayoutGuidance.offset
+            logoContainerViewXPosition.constant = LayoutGuidance.offset / 2
         } else {
             logoContainerViewXPosition.constant = LayoutGuidance.doNotMove
         }
@@ -91,18 +93,21 @@ class PreInitialViewController: UIViewController {
     }
     
     private func animate() {
-        UIView.animate(withDuration: 0.7, delay: 0.7) {
+        UIView.animate(withDuration: 0.5, delay: 0.5) {
+            self.jusanBuisnessImage.isHidden = true
+            self.logoImage.alpha = 1.0
+        } completion: { _ in
+            UIView.animate(withDuration: 0.7, delay: 0.3) {
             /// LOGO shrink
             self.logoContainerView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
-            self.jusanBuisnessImage.isHidden = true
         } completion: { _ in
             /// LOGO to top
-            UIView.animate(withDuration: 0.4, delay: 0.4) {
+            UIView.animate(withDuration: 0.45, delay: 0.45) {
                 self.invokeAnimatedImageContainerView(moveUp: true, moveLeft: false, moveRight: false)
             } completion: { _ in
                 /// LOGO to right
                 UIView.animate(withDuration: 0.7,
-                               delay: 0.7,
+                               delay: 0,
                                usingSpringWithDamping: 0.6,
                                initialSpringVelocity: 0.5,
                                options: .curveEaseIn
@@ -111,41 +116,41 @@ class PreInitialViewController: UIViewController {
                     
                     //LOGO & JBuisness to left
                     UIView.animate(withDuration: 0.8,
-                                   delay: 0.85,
+                                   delay: 0.5,
                                    usingSpringWithDamping: 0.65,
                                    initialSpringVelocity: 0.5,
                                    options: .curveEaseIn
                     ) {
                         self.invokeAnimatedImageContainerView(moveUp: true, moveLeft: true, moveRight: false)
                         self.jusanBuisnessImage.isHidden = false
-                        self.jusanBuisnessImage.alpha = 0
                         //JBuisness appear
-                        UIView.animate(withDuration: 0.9, delay: 0.9) {
+                        UIView.animate(withDuration: 0.5, delay: 0.5) {
                             self.jusanBuisnessImage.alpha = 1.0
                         }
                     }
                     
+                } completion: { _ in
+                    //Language appear
+                    UIView.animate(withDuration: 1, delay: 1) {
+                        self.invokeAnimatedLanguageView(isHidden: false)
+                        
                     } completion: { _ in
-                        //Language appear
-                        UIView.animate(withDuration: 2, delay: 2) {
-                            self.invokeAnimatedLanguageView(isHidden: false)
-                    
-                        } completion: { _ in
-                            /// ChildViewController
-                            UIView.animate(withDuration: 0.7, delay: 0.7) {
-                                self.viewBottomConstraint?.constant = Constants.bottomHeightForBounce
-                                UIView.animate(
-                                    withDuration: 0.7,
-                                    delay: 0.65,
-                                    usingSpringWithDamping: 0.65,
-                                    initialSpringVelocity: 0.5,
-                                    options: .curveEaseIn
-                                ) {
-                                    self.view.layoutIfNeeded()
-                                }
+                        /// ChildViewController
+                        UIView.animate(withDuration: 0.7, delay: 0) {
+                            self.viewBottomConstraint?.constant = Constants.bottomHeightForBounce
+                            UIView.animate(
+                                withDuration: 0.7,
+                                delay: 0,
+                                usingSpringWithDamping: 0.65,
+                                initialSpringVelocity: 0.5,
+                                options: .curveEaseIn
+                            ) {
+                                self.view.layoutIfNeeded()
                             }
                         }
                     }
+                }
+            }
             }
         }
     }
