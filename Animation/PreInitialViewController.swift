@@ -93,6 +93,7 @@ class PreInitialViewController: UIViewController {
     }
     
     private func animate() {
+        /// LOGO appear
         UIView.animate(withDuration: 0.5, delay: 0.5) {
             self.jusanBuisnessImage.isHidden = true
             self.logoImage.alpha = 1.0
@@ -135,7 +136,7 @@ class PreInitialViewController: UIViewController {
                         self.invokeAnimatedLanguageView(isHidden: false)
                         
                     } completion: { _ in
-                        /// ChildViewController
+                        /// ChildViewController appear
                         UIView.animate(withDuration: 0.7, delay: 0) {
                             self.viewBottomConstraint?.constant = Constants.bottomHeightForBounce
                             UIView.animate(
