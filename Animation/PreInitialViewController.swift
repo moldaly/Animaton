@@ -91,26 +91,27 @@ class PreInitialViewController: UIViewController {
     }
     
     private func animate() {
-        UIView.animate(withDuration: 0.7, delay: 0) {
+        UIView.animate(withDuration: 0.7, delay: 0.7) {
             /// LOGO shrink
             self.logoContainerView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
             self.jusanBuisnessImage.isHidden = true
         } completion: { _ in
-            /// LOGO to top & Language appear
-            UIView.animate(withDuration: 0.5, delay: 0) {
+            /// LOGO to top
+            UIView.animate(withDuration: 0.4, delay: 0.4) {
                 self.invokeAnimatedImageContainerView(moveUp: true, moveLeft: false, moveRight: false)
             } completion: { _ in
-                /// Image & Language
-                UIView.animate(withDuration: 0.5,
-                               delay: 0.5,
+                /// LOGO to right
+                UIView.animate(withDuration: 0.7,
+                               delay: 0.7,
                                usingSpringWithDamping: 0.6,
-                               initialSpringVelocity: 0.3,
+                               initialSpringVelocity: 0.5,
                                options: .curveEaseIn
                 ) {
                     self.invokeAnimatedImageContainerView(moveUp: true, moveLeft: false, moveRight: true)
                     
-                    UIView.animate(withDuration: 2,
-                                   delay: 0.65,
+                    //LOGO & JBuisness to left
+                    UIView.animate(withDuration: 0.8,
+                                   delay: 0.85,
                                    usingSpringWithDamping: 0.65,
                                    initialSpringVelocity: 0.5,
                                    options: .curveEaseIn
@@ -118,29 +119,33 @@ class PreInitialViewController: UIViewController {
                         self.invokeAnimatedImageContainerView(moveUp: true, moveLeft: true, moveRight: false)
                         self.jusanBuisnessImage.isHidden = false
                         self.jusanBuisnessImage.alpha = 0
-                        UIView.animate(withDuration: 0.65, delay: 0.65) {
+                        //JBuisness appear
+                        UIView.animate(withDuration: 0.9, delay: 0.9) {
                             self.jusanBuisnessImage.alpha = 1.0
                         }
                     }
-                } completion: { _ in
-                    UIView.animate(withDuration: 0.7, delay: 0.5) {
-                        self.invokeAnimatedLanguageView(isHidden: false)
+                    
                     } completion: { _ in
-                        /// ChildViewController
-                        UIView.animate(withDuration: 1, delay: 0) {
-                            self.viewBottomConstraint?.constant = Constants.bottomHeightForBounce
-                            UIView.animate(
-                                withDuration: 0.7,
-                                delay: 0.65,
-                                usingSpringWithDamping: 0.65,
-                                initialSpringVelocity: 0.5,
-                                options: .curveEaseIn
-                            ) {
-                                self.view.layoutIfNeeded()
+                        //Language appear
+                        UIView.animate(withDuration: 2, delay: 2) {
+                            self.invokeAnimatedLanguageView(isHidden: false)
+                    
+                        } completion: { _ in
+                            /// ChildViewController
+                            UIView.animate(withDuration: 0.7, delay: 0.7) {
+                                self.viewBottomConstraint?.constant = Constants.bottomHeightForBounce
+                                UIView.animate(
+                                    withDuration: 0.7,
+                                    delay: 0.65,
+                                    usingSpringWithDamping: 0.65,
+                                    initialSpringVelocity: 0.5,
+                                    options: .curveEaseIn
+                                ) {
+                                    self.view.layoutIfNeeded()
+                                }
                             }
                         }
                     }
-                }
             }
         }
     }
@@ -202,6 +207,7 @@ class PreInitialViewController: UIViewController {
             initialViewController.view.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             initialViewController.view.rightAnchor.constraint(equalTo: self.view.rightAnchor)
         ])
+        /// childViewController constraints init
         viewHeightConstraint = initialViewController.view.heightAnchor.constraint(equalToConstant: viewDefaultHeight)
         viewBottomConstraint = initialViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: viewDefaultHeight)
         viewHeightConstraint?.isActive = true
