@@ -69,20 +69,11 @@ class PreInitialViewController: UIViewController {
     }
     
     private func invokeAnimatedImageContainerView(moveUp: Bool, moveLeft: Bool, moveRight: Bool) {
+         
+        logoContainerViewXPosition.constant = moveLeft ? -(view.frame.width / 2 - logoContainerView.frame.width / 2 - LayoutGuidance.offset) : moveRight ? LayoutGuidance.offset / 2 : LayoutGuidance.doNotMove
         
-        if moveLeft {
-            logoContainerViewXPosition.constant = -(view.frame.width / 2 - logoContainerView.frame.width / 2 - LayoutGuidance.offset)
-        } else if moveRight {
-            logoContainerViewXPosition.constant = LayoutGuidance.offset / 2
-        } else {
-            logoContainerViewXPosition.constant = LayoutGuidance.doNotMove
-        }
-        
-        if moveUp {
-            logoContainerViewYPosition.constant = -(view.frame.height / 2 - Constants.offsetFromTop)
-        } else if !moveUp {
-            logoContainerViewYPosition.constant = logoContainerView.frame.height + LayoutGuidance.offset
-        }
+        logoContainerViewYPosition.constant = moveUp ? -(view.frame.height / 2 - Constants.offsetFromTop) : logoContainerView.frame.height + LayoutGuidance.offset
+
         view.layoutSubviews()
     }
     
@@ -128,20 +119,19 @@ class PreInitialViewController: UIViewController {
                         UIView.animate(withDuration: 0.5, delay: 0.5) {
                             self.jusanBuisnessImage.alpha = 1.0
                         }
-                    }
-                    
-                } completion: { _ in
+                     }
+                 } completion: { _ in
                     //Language appear
-                    UIView.animate(withDuration: 1, delay: 1) {
+                    UIView.animate(withDuration: 0.5, delay: 2) {
                         self.invokeAnimatedLanguageView(isHidden: false)
                         
                     } completion: { _ in
                         /// ChildViewController appear
-                        UIView.animate(withDuration: 0.7, delay: 0) {
+                        UIView.animate(withDuration: 0.5, delay: 0.2) {
                             self.viewBottomConstraint?.constant = Constants.bottomHeightForBounce
                             UIView.animate(
                                 withDuration: 0.7,
-                                delay: 0,
+                                delay: 0.5,
                                 usingSpringWithDamping: 0.65,
                                 initialSpringVelocity: 0.5,
                                 options: .curveEaseIn
@@ -149,9 +139,9 @@ class PreInitialViewController: UIViewController {
                                 self.view.layoutIfNeeded()
                             }
                         }
-                    }
-                }
-            }
+                     }
+                  }
+               }
             }
         }
     }
